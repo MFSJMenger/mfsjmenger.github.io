@@ -1,0 +1,635 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>PySurf - Seminar </title>
+
+		<link rel="stylesheet" href="dist/reset.css">
+		<link rel="stylesheet" href="dist/reveal.css">
+		<link rel="stylesheet" href="dist/theme/black.css" id="theme">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="highlight/styles/atelier-forest-light.css" id="highlight-theme">
+<style>
+#left {
+  left:-8.33%;
+  text-align: left;
+  float: left;
+  width:50%;
+  z-index:-10;
+}
+
+li {
+    margin: 3px; 
+}
+section {
+    font-size: 26pt;
+}
+
+#picture {
+    vertical-align: middle; 
+    max-width:100%; 
+    text-align: center;
+    margin: auto;
+}
+
+#right {
+  left:31.25%;
+  top: 75px;
+  float: right;
+  text-align: left;
+  z-index:-10;
+  width:50%;
+}
+
+.centre-align {
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+}
+
+.content {
+    display: inline-block;
+    vertical-align: top; /* Removes the extra white space below the baseline */
+}
+
+.acknowledgment_section {
+    display: flex;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+.two_column {
+    display: flex;
+    text-align: center;
+    margin: auto;
+}
+
+.four_column {
+    display: flex;
+}
+
+.four_column .left{
+    flex: 25%;
+    padding: 5px;
+}
+
+.two_column .left{
+    flex: 50%;
+    padding: 5px;
+    margin: auto;
+}
+
+.two_column .right{
+    flex: 50%;
+    padding: 5px;
+    margin: auto;
+}
+
+.two_column .left_wo{
+    flex: 50%;
+    padding: 5px;
+}
+
+.acknowledgment_section .name {
+    flex: 50%;
+    text-align: center;
+    font-size: 28px;
+    margin: auto;
+
+}
+
+.acknowledgment_section .figure {
+    flex: 50%;
+    text-align: center;
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
+</style>
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+                <!-- title page -->
+				<section data-background-image='CoverArt.png'>
+                    <h1 style='color: RGB(255, 243, 204);   text-shadow: 3px 3px 5px black; '> 
+                     PySurf </h1>
+                    <h3 style='color: RGB(255, 243, 204); text-shadow: 3px 3px 5px black; '> 
+                     A Framework for Database Accelerated Direct Dynamics
+                    </h3>
+                </section>
+
+                <!--  PySurf
+                <section>
+                    <h2>Quantum Chemistry in a Nutshell</h2>
+                    <div class="two_column">
+                        <div class="left"> 
+                        <ul>
+                            <li>Electronic Structure Methods</li>
+                        </ul>
+                        </div>
+                        <div class="right"> 
+                            <img id="picture" style="height: 50vh;" data-src='benzene_ring.png'>
+                        </div>
+                    </div>
+                </section>
+                 -->
+                <section>
+                    <h2>Quantum Chemistry in a Nutshell</h2>
+                    <div class="two_column">
+                        <div class="left"> 
+                        <ul>
+                            <li>Electronic structure methods</li>
+                        </ul>
+                        </div>
+                        <div class="right"> 
+                            <!--<img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='qm_mm_lhs.jpg'> -->
+                            <img id="picture" style="height: 40vh;" data-src='benzene.jpg'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Quantum Chemistry in a Nutshell</h2>
+                    <div class="two_column">
+                        <div class="left"> 
+                        <ul>
+                            <li>Electronic structure methods</li>
+                        </ul>
+                        </div>
+                        <div class="right"> 
+                            <!--<img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='qm_mm_lhs.jpg'> -->
+                            <img id="picture" style="height: 40vh;" data-src='benzene_mo_scheme.jpg'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Quantum Chemistry in a Nutshell</h2>
+                    <div class="two_column">
+                        <div class="left"> 
+                        <ul>
+                            <li>Electronic structure methods</li>
+                            <li>Dependent structures</li>
+                            <ul> 
+                                <li>Propagation</li>
+                                <li>Optimization</li>
+                            </ul>
+                            <div class="fragment">
+                                <li>Independent structures</li>
+                                <ul> 
+                                    <li>Wigner sampling</li>
+                                    <li>Snapshots MD</li>
+                                </ul>
+                            </div>
+                        </ul>
+                        </div>
+                        <div class="right"> 
+                            <!--<img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='qm_mm_lhs.jpg'> -->
+                            <img id="picture" sytle="height: 50vh;" data-src='geometry_optimization.jpg'>
+                        </div>
+                    </div>
+
+                </section>
+
+                <section>
+                   <img style="max-height: 18vh;" data-src='qchem_white_new.png'>
+
+                    <div class="two_column">
+                        <div class="left">
+                            <ul>
+                                <li> Ground State: </li>
+                                <ul>
+                                    <li>HF/DFT/MP2/CC</li>
+                                </ul>
+                                <div class="fragment">
+                                <li> Excited State: </li>
+                                <ul>
+                                    <li>CIS/TDDFT/ADC/EOM-CC </li>
+                                </ul>
+                                </div>
+                                <!-- Core assumption born-oppenheimer 
+                                    Computation of electronic properties:
+                                    Energies, Gradients, Dipol moments wavefunction overlaps, etc.
+                                -->
+                                <li class="fragment"> Geometry optimization</li>
+                                <div class="fragment"> 
+                                    <li>Molecular dynamics</li>
+                                    <ul>
+                                        <li>BOMD</li>
+                                        <li>FSSH</li>
+                                    </ul>
+                                </div>
+                                <li class="fragment"> ... </li>
+                            </ul>
+                        </div>
+                        <div class="right">
+                            <img style="height: 40vh; margin: 2px;" data-src='chrone.png'>
+                        </div>
+                    </div>
+                </section>
+
+                <section> 
+                    <img style='height:25vh; ' data-src='pysurf_bw.png'>
+                    <ul>
+                        <li>Toolbox for quantum chemistry software development</li>
+                        <li>Goal:</li>
+                        <ul>
+                            <li>Fast prototyping</li>
+                            <li>Easily extensible </li>
+                            <li>Light-weight </li>
+                            <li>Developer/user friendly </li>
+                        </ul>
+                    </ul>
+                   <p style='color: lightblue;'> https://github.com/mfsjmenger/pysurf </p>
+                   <div style='font-size: 16px;'>
+                       MM, J. Ehrmaier, S. Faraji, ChemRxiv. https://doi.org/10.26434/chemrxiv.13147796.v1
+                   </div>
+                </section>
+
+                <section> 
+                    <h2> Daily tasks </h2>
+                    <div class="two_column">
+                        <div class="left">
+                            <ul>
+                                <li> Set up (many) calculations </li>
+                                <li> Collect results</li>
+                                <li> Creating figures/tables etc.</li>
+                            </ul>
+                        </div>
+                        <div class="right fragment">
+                            <img style='height:30vh; ' data-src='lego.jpg'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2>Annoying tasks:</h2>
+                    <ul>
+                        <li>User input?</li>
+                        <li>Documentation?</li>
+                    </ul>
+                    <div class="fragment" style="margin: 20px;">
+                        <q>Code never lies, comments sometimes do.</q>
+                        <p>- Ron Jeffries</p>
+                    </div>
+                </section>
+
+                <section>
+                        <p style='color: lightblue'> https://github.com/mfsjmenger/colt </p>
+                        <pre><code class="python" data-trim data-noescape>
+                        @from_commandline(
+                        """
+                        # electronic structure method
+                        method = :: str :: [tddft, adc2, cc2]
+                        # Number of states
+                        nstates = :: int :: >1
+                        """)
+                        def example_function(method, nstates=8):
+                            ...
+                          </code></pre>
+                        <pre><code class="python fragment" data-trim data-noescape>
+                        example_function()
+                        </code></pre>
+                        <pre><code class="fragment" data-trim data-noescape>
+    usage: sphinx_example.py [-h] method nstates
+
+    positional arguments:
+        method      str, Choices(tddft, adc2, cc2)
+                    electronic structure method
+        nstates     int, Range(>1)
+                    Number of States
+
+    optional arguments:
+        -h, --help  show this help message and exit
+
+                        </code></pre>
+
+                </section>
+                <section>
+                        <pre class="python"><code data-trim data-noescape>
+                        class ExampleClass(Colt):
+                            _questions = """
+                            # electronic structure method
+                            method = :: str :: [tddft, adc2, cc2]
+                            # Number of states
+                            nstates = :: int :: >1
+                            """
+
+                            def from_config(cls, config):
+                                return cls(config['method'], config['nstates'])
+
+                            def __init__(self, method, nstates):
+                                ...
+
+                        </code></pre>
+                        <div class='fragment'>
+                        <pre><code class="python" data-trim data-noescape>
+                        # obj = ExampleClass.from_commandline()
+                        obj = ExampleClass.from_questions(config='input.in')
+                        </code></pre>
+
+                        <pre><code class="python" data-trim data-noescape>
+                        # input.in
+                        method = tddft
+                        nstates = 6
+                        </code></pre>
+                        </div>
+
+                        <div class="fragment">
+                        <p style='color: lightblue'> https://github.com/mfsjmenger/colt </p>
+                            <pre><code class="python" data-trim data-noescape>
+                            pip install pycolt
+                            </code></pre>
+                        </div>
+                </section>
+
+                <section>
+                    <h2> Sphinx </h2>
+                    <pre><code data-trim data-noescape>
+sphinx_example::ExampleClass
+----------------------------
+
+Basic example function for colt autodoc:
+
+.. colt:: sphinx_example
+   :class: ExampleClass
+
+sphinx_example::example_function
+--------------------------------
+
+Basic example function for colt from_commandline autodoc:
+
+.. colt:: sphinx_example
+   :class: example_function
+
+                    </code></pre>
+                    <a href="file:///Users/maximilian/Projects/presentation/presentations/qchem_webinar/sphinx/_build/html/index.html">Sphinx Example</a>
+                </section>
+
+                <section>
+                    <h2>PySurf</h2>
+                    <img id="picture" style="max-width: 100%;" data-src='core.png'>
+                    <ul style='margin: 20px;'> 
+                        <li class="fragment">Simple abstraction for most common cases</li>
+                        <li class="fragment">Build around a plugin system</li>
+                        <li class="fragment">Workflow/pipeline engine</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <h2> Surface Point Provider</h2>
+                    <div class="two_column">
+                        <div class="left">
+                            <ul> 
+                                <li>Compute electronic properties</li>
+                                <div class="fragment">
+                                    <li>Integrated database</li>
+                                    <ul> 
+                                        <li>Machine Learning</li>
+                                    </ul>
+                                    <li class="fragment">C/C++, Fortran interface</li>
+                                    <img id="picture" style="margin: 80px; max-width: 100%;" data-src='albert2.jpg'>
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="left">
+                            <img id="picture" style="max-width: 100%;" data-src='spp.png'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2> Sampler </h2>
+                    <div class="two_column">
+                        <div class="left">
+                        <ul> 
+                            <li>Generate independent structures</li>
+                        </ul>
+                        </div>
+                        <div class="left">
+                            <img id="picture" style="max-height: 60vh;" data-src='sampler.png'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <h2> Propagator </h2>
+                    <div class="two_column">
+                        <div class="left">
+                        <ul> 
+                            <li>Propagate the system</li>
+                            <ul>
+                                <li>Optimizer</li>
+                                <li>Molecular dynamics</li>
+                            </ul>
+                        </ul>
+                        </div>
+                        <div class="left">
+                            <img id="picture" style="max-height: 60vh;" data-src='propagator.png'>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                   <h2> User Plugins </h2>
+                    <div class="two_column">
+                        <div class="left" style="font-size=8px;">
+                            <ul style="margin: 1px;"> 
+                                <li>Custom features</li>
+                                <li class="fragment">No need to understand the full library</li>
+                                <li class="fragment">Automated parser generation</li>
+                                <li class="fragment">Automated documentation</li>
+                            </ul>
+                        </div>
+                        <div class="right" style="min-width:60%;">
+                            <pre><code data-trim data-noescape>
+                            class ModelExample(Model):
+                                _questions = """
+                                ndim = :: int 
+                                nstates =  :: int
+                                """
+
+                                def from_config(cls, config):
+                                    return cls(config['ndim'], 
+                                               config['nstates'])
+
+                                def __init__(self, ndim, nstates):
+                                    ...
+
+                                def get(self, request):
+                                    ...
+                              </code></pre>
+                        </div>
+                </section>
+
+                <section>
+                    <h2>PySurf for Surface Hopping</h2>
+                    <img class="r-stretch" data-src='pysurf_full.png'>
+                </section>
+
+                <section>
+                    <img class="r-stretch" data-src='CoverArt.png'>
+                </section>
+
+                <section>
+                    <p> 5D Pyrazine Model: Single Trajectory </p>
+                    <div id='left'>
+                        <img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='pyr5_validation_pes.png'>
+                    </div>
+                    <div id='right'>
+                        <img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='pyr5_validation_pes_CI.png'>
+                    </div>
+                </section>
+
+                <section>
+                    <p> Energy Only Surface Hopping </p>
+                    <div id='left'>
+                        <p> Idea: </p>
+                        <ul>
+                            <li>Accurate potentials </li>
+                            <li>Compute gradient from the fitted potential</li>
+                        </ul>
+                    </div>
+                    <div id='right' class="fragment">
+                        <img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='pyr5_populations.png'>
+                        <p style='font-size: 20px'> reference (solid), energy-only (dotted) </p>
+                    </div>
+                </section>
+
+                <section>
+                    <h2> Application: $SO_2$ </h2>
+                </section>
+
+                <section>
+                    <h3> $SO_2$ </h3>
+                    <div id='left'>
+                        <div style='height: 20vh;'></div>
+                        <ul>
+                            <li>Ultrafast (within ~20fs) $S_2-S_1$ transition</li>
+                            <li class="fragment">Conical intersection close to Frank-Condon region </li>
+                            <li class="fragment">Database: ~7000 datapoints</li>
+                        </ul>
+                    </div>
+                    
+                    <div id='right'>
+                        <img style='vertical-align: middle; max-width:90%; max-height: 80vh;' data-src='so2_ci_b3lyp_new.png'>
+                        <video height="190" loop Autoplay=autoplay>
+                              <source src="so2_bend.mov" type="video/mp4">
+                        </video>
+                        <video height="190" loop Autoplay=autoplay>
+                              <source src="so2_astretch.mov" type="video/mp4">
+                        </video>
+                    </div>
+                </section>
+
+                <section>
+                    <h3> $SO_2$ </h3>
+                    <img style='vertical-align: middle; max-width:90%; max-height: 50vh;' data-src='so2_populations.png'>
+                    <p style='font-size: 20px'> reference (solid), energy-only (dotted) </p>
+                </section>
+
+                <section>
+                    <h1> Live demo </h1>
+                </section>
+
+                <section>
+                  <div class="two_column">
+                    <div class="left">
+                       <img style='height: 18vh;' data-src='pysurf_bw.png'>
+                        <div class="acknowledgment_section">
+                            <div class="name"> Shirin Faraji </div>
+                            <div class="figure"> 
+                                <img style='vertical-align: middle; max-width:100%; max-height: 7vh; margin: 0.01;' data-src='shirin.jpeg'>
+                            </div>
+                        </div>
+                        <div class="acknowledgment_section">
+                            <div class="name">
+                                Johannes Ehrmaier 
+                            </div>
+                            <div class="figure"> 
+                                <img style='vertical-align: middle; max-width:100%; max-height: 7vh; margin: 0.0;' data-src='johannes_uncool.jpg'>
+                            </div>
+                        </div>
+                        <div class="acknowledgment_section">
+                            <div class="name">Albert Thie</div>
+                            <div class="figure"> 
+                                <img style='vertical-align: middle; max-width:100%; max-height: 7vh; margin: 0.01;' data-src='albert2.jpg'>
+                            </div>
+                        </div>
+                        <div class="acknowledgment_section">
+                            <div class="name">
+                               Edison Salazar 
+                            </div>
+                            <div class="figure"> 
+                                <img style='vertical-align: middle; max-width:100%; max-height: 7vh; margin: 0.0;' data-src='edison.jpg'>
+                            </div>
+                        </div>
+                        <div class="acknowledgment_section">
+                            <div class="name">
+                                Eryn Spinlove
+                            </div>
+                            <div class="figure"> 
+                                <img style='vertical-align: middle; max-width:100%; max-height: 7vh; margin: 0.01;' data-src='eryn.jpg'>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="left">
+                       <img style='vertical-align: middle; max-width:100%; max-height: 50vh;' data-src='group1.jpg'>
+                       <img style='vertical-align: middle; max-width:50%; max-height: 80vh;' data-src='qchem_wo.png'>
+                       <img style='vertical-align: middle; max-width:30%; height: 20vh;' data-src='nwo_logo.jpg'>
+                       <p style='color: lightblue; text-align: left;'> https://github.com/mfsjmenger</p>
+
+                    </div>
+                  </div>
+                </section>
+			</div>
+		</div>
+
+		<script src="dist/reveal.js"></script>
+		<script src="plugin/notes/notes.js"></script>
+		<script src="plugin/markdown/markdown.js"></script>
+		<script src="plugin/math/math.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+		<script src="plugin/zoom/zoom.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				hash: true,
+
+                math: {
+                    mathjax: 'https://cdn.jsdelivr.net/gh/mathjax/mathjax@2.7.8/MathJax.js',
+                    config: 'TeX-AMS_HTML-full',
+                    // pass other options into `MathJax.Hub.Config()`
+                    TeX: { Macros: { RR: "{\\bf R}" } }
+                },
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMath ],
+
+                showSlideNumber: 'all',
+                keyboard: true,
+                transition: 'none',
+
+                margin: 0.04,
+
+                minScale: 0.2,
+                maxScale: 2.0,
+                slideNumber: 'c/t'
+
+			});
+			//document.querySelector( '#slides' ).addEventListener( 'click', function( event ) {
+	        //			event.preventDefault();
+		    //		zoom.to({ element: event.target });
+			//} );
+		</script>
+
+	</body>
+</html>
