@@ -1,0 +1,33 @@
+.. gh-pages documentation master file, created by
+   sphinx-quickstart on Tue Oct 26 05:38:56 2021.
+   You can adapt this file completely to your liking, but it should at least
+   contain the root `toctree` directive.
+
+Github Pages
+============
+
+.. toctree::
+   :maxdepth: 2
+   :caption: General Information:
+
+   projects
+
+
+.. toctree::
+   :maxdepth: 2
+   :caption: COLT:
+
+   colt/usage
+   colt/installation
+   colt/modules
+   colt/contributing
+   colt/authors
+
+
+
+Indices and tables
+==================
+
+* :ref:`genindex`
+* :ref:`modindex`
+* :ref:`search`

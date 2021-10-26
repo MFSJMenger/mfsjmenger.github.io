@@ -1,0 +1,612 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>colt.colt &mdash; Github Pages  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> Github Pages
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../projects.html">Projects</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../colt/index.html">Welcome to Colt’s documentation!</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../colt/index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Github Pages</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>colt.colt</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for colt.colt</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Provides the `Colt` class to use the questions functionality&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span>
+<span class="c1">#</span>
+<span class="kn">from</span> <span class="nn">.questions</span> <span class="kn">import</span> <span class="n">QuestionASTGenerator</span>
+<span class="kn">from</span> <span class="nn">.ask</span> <span class="kn">import</span> <span class="n">AskQuestions</span>
+<span class="kn">from</span> <span class="nn">.parser</span> <span class="kn">import</span> <span class="n">get_config_from_commandline</span><span class="p">,</span> <span class="n">get_commandline_parser</span>
+<span class="kn">from</span> <span class="nn">.lazyimport</span> <span class="kn">import</span> <span class="n">LazyImporter</span>
+
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;Colt&quot;</span><span class="p">,)</span>
+
+
+<span class="k">class</span> <span class="nc">ClassProperty</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">func</span>
+
+    <span class="k">def</span> <span class="fm">__get__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">objtype</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">objtype</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span>
+        <span class="c1"># class method</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="n">objtype</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">add_defaults_to_dict</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="n">defaults</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot; add defaults to dict &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">default</span> <span class="ow">in</span> <span class="n">defaults</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+            <span class="n">clsdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">default</span>
+
+
+<span class="k">def</span> <span class="nf">delete_inherited_keys</span><span class="p">(</span><span class="n">keys</span><span class="p">,</span> <span class="n">clsdict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;delete any key in clsdict if it&#39;s `inherited`&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">clsdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;inherited&#39;</span><span class="p">:</span>
+            <span class="k">del</span> <span class="n">clsdict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+
+<span class="k">def</span> <span class="nf">join_extend_questions</span><span class="p">(</span><span class="n">func1</span><span class="p">,</span> <span class="n">func2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;combine extend question functions&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func1</span><span class="p">,</span> <span class="nb">classmethod</span><span class="p">):</span>
+        <span class="n">func1</span> <span class="o">=</span> <span class="n">func1</span><span class="o">.</span><span class="vm">__func__</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func2</span><span class="p">,</span> <span class="nb">classmethod</span><span class="p">):</span>
+        <span class="n">func2</span> <span class="o">=</span> <span class="n">func2</span><span class="o">.</span><span class="vm">__func__</span>
+
+    <span class="k">def</span> <span class="nf">_generate_subquestions</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">questions</span><span class="p">):</span>
+        <span class="n">func1</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
+        <span class="n">func2</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">questions</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">_generate_subquestions</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">to_classmethod</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="n">function_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;convert the function in the clsdict to a classmethod&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">function_name</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">clsdict</span><span class="p">[</span><span class="n">function_name</span><span class="p">]</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="nb">classmethod</span><span class="p">):</span>
+            <span class="n">clsdict</span><span class="p">[</span><span class="n">function_name</span><span class="p">]</span> <span class="o">=</span> <span class="nb">classmethod</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">colt_modify_class_dict</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="n">bases</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;setup the clsdict in colt to avoid inheritance problems</span>
+
+<span class="sd">       it modifies both the clsdict and its annotations!</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">colt_defaults</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s1">&#39;_extend_user_input&#39;</span><span class="p">:</span> <span class="nb">classmethod</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">questions</span><span class="p">:</span> <span class="kc">None</span><span class="p">),</span>
+            <span class="s1">&#39;_user_input&#39;</span><span class="p">:</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+            <span class="s1">&#39;_colt_description&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="s1">&#39;_lazy_imports&#39;</span><span class="p">:</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="s1">&#39;_lazy_imports&#39;</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;_lazy_imports&#39;</span><span class="p">],</span> <span class="n">LazyImporter</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;_lazy_imports can only be an LazyImporter&quot;</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="s1">&#39;colt_user_input&#39;</span> <span class="ow">in</span> <span class="n">clsdict</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">clsdict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;_colt_user_input_overwrite&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Method/value &#39;colt_user_input&#39; reserved for Colt&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s1">&#39;_colt_user_input_overwrite&#39;</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+        <span class="k">del</span> <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;_colt_user_input_overwrite&#39;</span><span class="p">]</span>
+    <span class="k">if</span> <span class="s1">&#39;_colt_from_config_no_classmethod&#39;</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">clsdict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s1">&#39;_colt_from_config_no_classmethod&#39;</span><span class="p">):</span>
+            <span class="n">to_classmethod</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="s1">&#39;from_config&#39;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">to_classmethod</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="s1">&#39;from_config&#39;</span><span class="p">)</span>
+
+    <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;colt_user_input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ClassProperty</span><span class="p">(</span><span class="k">lambda</span> <span class="bp">cls</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_user_input_ast</span><span class="p">())</span>
+    <span class="n">to_classmethod</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="s1">&#39;_extend_user_input&#39;</span><span class="p">)</span>
+    <span class="c1"># rewrite that....it is horrible</span>
+    <span class="k">if</span> <span class="n">clsdict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;extend_user_input&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">==</span> <span class="s1">&#39;inherited&#39;</span><span class="p">:</span>
+            <span class="k">if</span> <span class="s1">&#39;_extend_user_input&#39;</span> <span class="ow">in</span> <span class="n">clsdict</span><span class="p">:</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">bases</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;_extend_user_input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">join_extend_questions</span><span class="p">(</span>
+                        <span class="nb">getattr</span><span class="p">(</span><span class="n">bases</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;_extend_user_input&#39;</span><span class="p">),</span>
+                        <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;_extend_user_input&#39;</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;_extend_user_input&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">bases</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="s1">&#39;_extend_user_input&#39;</span><span class="p">)</span>
+            <span class="c1"># delete task from annotations, and clean unnecessary annotations!</span>
+            <span class="k">del</span> <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">][</span><span class="s1">&#39;extend_user_input&#39;</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="p">{}:</span>
+                <span class="k">del</span> <span class="n">clsdict</span><span class="p">[</span><span class="s1">&#39;__annotations__&#39;</span><span class="p">]</span>
+    <span class="c1">#</span>
+    <span class="n">add_defaults_to_dict</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="n">colt_defaults</span><span class="p">)</span>
+    <span class="n">delete_inherited_keys</span><span class="p">([</span><span class="s2">&quot;_user_input&quot;</span><span class="p">],</span> <span class="n">clsdict</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">ColtMeta</span><span class="p">(</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Metaclass to handle hierarchical generation of questions&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">clsdict</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Modify clsdict before the new method of the metaclass is called&quot;&quot;&quot;</span>
+        <span class="n">colt_modify_class_dict</span><span class="p">(</span><span class="n">clsdict</span><span class="p">,</span> <span class="n">bases</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ABCMeta</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">clsdict</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">generate_user_input_ast</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;gentarte QuestionAST object and extend it possibly&quot;&quot;&quot;</span>
+        <span class="n">main_description</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s1">&#39;_colt_description&#39;</span><span class="p">)</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="n">QuestionASTGenerator</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_user_input</span><span class="p">,</span> <span class="n">comment</span><span class="o">=</span><span class="n">main_description</span><span class="p">)</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_extend_user_input</span><span class="p">(</span><span class="n">questions</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">questions</span>
+
+    <span class="k">def</span> <span class="nf">_extend_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">questions</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;In case additional questions should be added to the QuesionAST&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="Colt"><a class="viewcode-back" href="../../colt/modules.html#colt.colt.Colt">[docs]</a><span class="k">class</span> <span class="nc">Colt</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ColtMeta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base Class for `Colt` classes&quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_user_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate an object to generate the question config</span>
+<span class="sd">        either from commandline, or from an input file etc.</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        config: str, optional</span>
+<span class="sd">            If not `None` name of a config file, the input should be read</span>
+
+<span class="sd">        presets: str, optional</span>
+<span class="sd">            presets for the questions</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+
+<span class="sd">        AskQuestions</span>
+<span class="sd">            object to generate the questions config</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">AskQuestions</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">colt_user_input</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="n">presets</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Colt.from_questions"><a class="viewcode-back" href="../../colt/modules.html#colt.colt.Colt.from_questions">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_questions</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">check_only</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ask_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                       <span class="n">ask_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initizialze the class using `Colt` question utilities</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        config: str, optional</span>
+<span class="sd">            Name of a config file</span>
+
+<span class="sd">        presets: str, optional</span>
+<span class="sd">            presets for the questions</span>
+
+<span class="sd">        check_only: bool, optional</span>
+<span class="sd">            If True, check that the settings in the configfile are correct</span>
+<span class="sd">            If False, ask missing values</span>
+
+<span class="sd">        ask_all: bool, optional</span>
+<span class="sd">            ask all question</span>
+
+<span class="sd">        ask_defaults: bool, optional</span>
+<span class="sd">            ask the question with default values</span>
+
+<span class="sd">        args, kwargs: optional</span>
+<span class="sd">            arguments and keyword arguments passed to from_config aside from</span>
+<span class="sd">            the questions config</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PyObj</span>
+<span class="sd">            anything that from_config returns. Intended to initalize the class</span>
+<span class="sd">            so from_config should return an instance of the class.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_user_input</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="n">presets</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="k">if</span> <span class="n">check_only</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">answers</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">check_only</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">answers</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">ask</span><span class="p">(</span><span class="n">ask_all</span><span class="o">=</span><span class="n">ask_all</span><span class="p">,</span> <span class="n">ask_defaults</span><span class="o">=</span><span class="n">ask_defaults</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">answers</span> <span class="o">=</span> <span class="n">questions</span><span class="o">.</span><span class="n">generate_input</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">ask_all</span><span class="o">=</span><span class="n">ask_all</span><span class="p">,</span>
+                                                   <span class="n">ask_defaults</span><span class="o">=</span><span class="n">ask_defaults</span><span class="p">)</span>
+        <span class="c1">#</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_from_config</span><span class="p">(</span><span class="n">answers</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Colt.from_config"><a class="viewcode-back" href="../../colt/modules.html#colt.colt.Colt.from_config">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initizialze the class using questions config object</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        answer: obj</span>
+<span class="sd">            Questions config object</span>
+
+<span class="sd">        args, kwargs: optional</span>
+<span class="sd">            arguments and keyword arguments passed to from_config aside from</span>
+<span class="sd">            the questions config</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Self</span>
+<span class="sd">            Intended to initalize the class using the information provided by the config.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s2">&quot;Cannot load from_config, as it is not implemented!, &quot;</span>
+                        <span class="s2">&quot;also from_questions depend on that!&quot;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Colt.from_commandline"><a class="viewcode-back" href="../../colt/modules.html#colt.colt.Colt.from_commandline">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_commandline</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">as_parser</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the class using input provided from the commandline</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        description: str, optional</span>
+<span class="sd">            Description of the commandline interface, for better documentation,</span>
+<span class="sd">            see `argparse.ArgumentParser(description)`</span>
+
+<span class="sd">        presets: str, optional</span>
+<span class="sd">            presets for the questions</span>
+
+<span class="sd">        args, kwargs: optional</span>
+<span class="sd">            arguments and keyword arguments passed to from_config aside from</span>
+<span class="sd">            the questions config</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        PyObj</span>
+<span class="sd">            anything that from_config returns. Intended to initalize the class</span>
+<span class="sd">            so from_config should return an instance of the class.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">as_parser</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+            <span class="n">answers</span> <span class="o">=</span> <span class="n">get_config_from_commandline</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">colt_user_input</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span>
+                                                  <span class="n">presets</span><span class="o">=</span><span class="n">presets</span><span class="p">)</span>
+            <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_from_config</span><span class="p">(</span><span class="n">answers</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">CommandlineClassInterface</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="n">description</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="n">presets</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Colt.generate_input"><a class="viewcode-back" href="../../colt/modules.html#colt.colt.Colt.generate_input">[docs]</a>    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">generate_input</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">ask_all</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">ask_defaults</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Generate an inputfile that can later be used to initialze the class</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        filename: str</span>
+<span class="sd">            Name of the inputfile</span>
+
+<span class="sd">        ask_all: bool, optional</span>
+<span class="sd">            ask all question</span>
+
+<span class="sd">        ask_defaults: bool, optional</span>
+<span class="sd">            ask the question with default values</span>
+
+<span class="sd">        presets: str, optional</span>
+<span class="sd">            presets for the questions</span>
+
+<span class="sd">        config: str, optional</span>
+<span class="sd">            Name of a config file, data should be read from</span>
+
+<span class="sd">        *args, **kwargs: optional</span>
+<span class="sd">            arguments and keyword arguments passed to from_config aside from</span>
+<span class="sd">            the questions config</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        AnswerBlock</span>
+<span class="sd">            colt question obj</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">questions</span> <span class="o">=</span> <span class="bp">cls</span><span class="o">.</span><span class="n">generate_user_input</span><span class="p">(</span><span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="n">presets</span><span class="o">=</span><span class="n">presets</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">questions</span><span class="o">.</span><span class="n">generate_input</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">ask_all</span><span class="o">=</span><span class="n">ask_all</span><span class="p">,</span> <span class="n">ask_defaults</span><span class="o">=</span><span class="n">ask_defaults</span><span class="p">)</span></div>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initizialze the class using from_config after loading lazy_imports</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+
+<span class="sd">        answer: obj</span>
+<span class="sd">            Questions config object</span>
+
+<span class="sd">        args, kwargs: optional</span>
+<span class="sd">            arguments and keyword arguments passed to from_config aside from</span>
+<span class="sd">            the questions config</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        Self</span>
+<span class="sd">            Intended to initalize the class using the information provided by the config.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># import lazy modules</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_import_lazy_modules</span><span class="p">()</span>
+        <span class="c1"># call config</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="o">.</span><span class="n">from_config</span><span class="p">(</span><span class="n">answer</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">_import_lazy_modules</span><span class="p">(</span><span class="bp">cls</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">cls</span><span class="o">.</span><span class="n">_lazy_imports</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="c1"># load the modules</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_lazy_imports</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="c1"># set it to None</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_lazy_imports</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<span class="k">class</span> <span class="nc">CommandlineInterface</span><span class="p">:</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">colt_user_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span>
+
+    <span class="k">def</span> <span class="nf">get_parser</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">get_commandline_parser</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">colt_user_input</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CommandlineFunctionInterface</span><span class="p">(</span><span class="n">CommandlineInterface</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Basic Colt class to handle commandline parsing&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">function</span><span class="p">,</span> <span class="n">user_input</span><span class="p">,</span> <span class="n">description</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Store the original function&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="n">function</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_func</span> <span class="o">=</span> <span class="n">function</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_user_input</span> <span class="o">=</span> <span class="n">user_input</span>
+        <span class="bp">self</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="o">.</span><span class="vm">__doc__</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">colt_user_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">QuestionASTGenerator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_user_input</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;CommandlineFunctionInterface(func=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If the function is called with arguments: use it as is</span>
+<span class="sd">        Else: get the arguments from the commandline&quot;&quot;&quot;</span>
+        <span class="c1"># call with arguments</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">value</span> <span class="ow">in</span> <span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)):</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># call from commandline</span>
+        <span class="n">answers</span> <span class="o">=</span> <span class="n">get_config_from_commandline</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_user_input</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_func</span><span class="p">(</span><span class="o">**</span><span class="n">answers</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">CommandlineClassInterface</span><span class="p">(</span><span class="n">CommandlineInterface</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">cls</span><span class="p">,</span> <span class="n">description</span><span class="p">,</span> <span class="n">presets</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Store the original function&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">description</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span> <span class="o">=</span> <span class="bp">cls</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_presets</span> <span class="o">=</span> <span class="n">presets</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">description</span> <span class="o">=</span> <span class="n">description</span>
+
+    <span class="k">def</span> <span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;CommandlineClassInterface(cls=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">)&quot;</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">colt_user_input</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="o">.</span><span class="n">colt_user_input</span>
+
+    <span class="k">def</span> <span class="fm">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;If the function is called with arguments: use it as is</span>
+<span class="sd">        Else: get the arguments from the commandline&quot;&quot;&quot;</span>
+        <span class="c1"># call from commandline</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cls</span><span class="o">.</span><span class="n">from_commandline</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">description</span><span class="p">,</span>
+                                          <span class="n">presets</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_presets</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">from_commandline</span><span class="p">(</span><span class="n">questions</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">description</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decorate a function to call it using commandline arguments</span>
+
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    questions: str</span>
+<span class="sd">        Questions specifing the user input</span>
+<span class="sd">    description: str, optional</span>
+<span class="sd">        Description displayed in case -h is called</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    CommandlineInterface</span>
+<span class="sd">        `Colt` class that acts as the replacement of the function.</span>
+
+<span class="sd">        If the function is called without arguments, the argparse is used to get</span>
+<span class="sd">        the arguments of the function</span>
+<span class="sd">        Else the function is called normally</span>
+
+<span class="sd">    Notes</span>
+<span class="sd">    -----</span>
+<span class="sd">    If you decorate a function that takes no arguments, always the commandline parser will</span>
+<span class="sd">    be called.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#</span>
+
+    <span class="k">def</span> <span class="nf">_wrapper</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Wrapper function to decorate the function with the CommandlineInterface class&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">CommandlineFunctionInterface</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">questions</span><span class="p">,</span> <span class="n">description</span><span class="p">)</span>
+    <span class="c1"># return the new colt class</span>
+    <span class="k">return</span> <span class="n">_wrapper</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Maximilian Menger
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Usage &mdash; Github Pages  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="../_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script data-url_root="../" id="documentation_options" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Installation" href="installation.html" />
+    <link rel="prev" title="Welcome to Colt’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home"> Github Pages
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../projects.html">Projects</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Welcome to Colt’s documentation!</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#questions">Questions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#example-commandline-parser">Example: Commandline Parser</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#colt">Colt:</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html">Colt</a></li>
+<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="authors.html">Credits</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Github Pages</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="index.html">Welcome to Colt’s documentation!</a> &raquo;</li>
+        
+      <li>Usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/colt/usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="usage">
+<h1>Usage<a class="headerlink" href="#usage" title="Permalink to this headline">¶</a></h1>
+<p>The core motivation for colt was to provide an simple
+way to read (and write) input files, while validating
+the user input for type correctness.
+This enables several unique features:</p>
+<ol class="arabic simple">
+<li><p>Simple generation of commandline interfaces</p></li>
+<li><p>Initialize classes from commandline/input files</p></li>
+<li><p>Build complex input files directly from a class hierarchy</p></li>
+</ol>
+<section id="questions">
+<h2>Questions<a class="headerlink" href="#questions" title="Permalink to this headline">¶</a></h2>
+<p>The key component for colt are its question syntax, which
+are in type annotated config-file:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># This is an integer larger equal 2</span>
+<span class="n">integer</span> <span class="o">=</span> <span class="p">::</span> <span class="nb">int</span> <span class="p">::</span> <span class="o">&gt;</span><span class="mi">2</span>
+<span class="c1"># This is a general float</span>
+<span class="nb">float</span> <span class="o">=</span> <span class="p">::</span> <span class="nb">float</span>
+<span class="c1"># This is a string, with default value &quot;Hello World&quot;</span>
+<span class="n">string</span> <span class="o">=</span> <span class="n">Hello</span> <span class="n">World</span> <span class="p">::</span> <span class="nb">str</span>
+<span class="c1"># List of strings</span>
+<span class="nb">list</span> <span class="o">=</span> <span class="p">::</span> <span class="nb">list</span>
+</pre></div>
+</div>
+<p>The syntax hereby is:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">default</span> <span class="p">::</span> <span class="n">typ</span> <span class="p">::</span> <span class="n">selection</span>
+</pre></div>
+</div>
+<p>comments describing the elements can be added on top of the values
+using ‘#’ as comment character. Multiple comments can be used.</p>
+</section>
+<section id="example-commandline-parser">
+<h2>Example: Commandline Parser<a class="headerlink" href="#example-commandline-parser" title="Permalink to this headline">¶</a></h2>
+<p>One simple example to use colt for is to create simple commandline
+interfaces using the <cite>FromCommandline</cite>-decorator.
+An example code that prints values between <cite>xstart</cite> and <cite>xstop</cite>
+using optionally <cite>step</cite> as</p>
+<p>which generates the following commandline interface if its called with arguments.
+<strong>Note:</strong> The function is only called regulary if its called with arguments,
+in case of a function that uses no arguments, <strong>always</strong> the argparser will be called!</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">commandline_xrange</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">step</span> <span class="n">step</span><span class="p">]</span> <span class="n">xstart</span> <span class="n">xstop</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+   <span class="n">xstart</span>      <span class="nb">int</span><span class="p">,</span> <span class="n">Range</span><span class="p">(</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+               <span class="n">start</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">range</span>
+   <span class="n">xstop</span>       <span class="nb">int</span><span class="p">,</span> <span class="n">Range</span><span class="p">(</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+               <span class="n">end</span> <span class="n">of</span> <span class="n">the</span> <span class="nb">range</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+   <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>  <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+   <span class="o">-</span><span class="n">step</span> <span class="n">step</span>  <span class="nb">int</span><span class="p">,</span>
+               <span class="n">step</span> <span class="n">size</span>
+</pre></div>
+</div>
+<p>The decorated function can still be used as it is:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">commandline_xrange</span> <span class="kn">import</span> <span class="n">x_range</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">x_range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>
+<span class="gp">... </span><span class="mi">10</span>
+<span class="gp">... </span><span class="mi">20</span>
+<span class="gp">... </span><span class="mi">30</span>
+<span class="gp">... </span><span class="mi">40</span>
+<span class="gp">... </span><span class="mi">50</span>
+<span class="gp">... </span><span class="mi">60</span>
+<span class="gp">... </span><span class="mi">70</span>
+<span class="gp">... </span><span class="mi">80</span>
+<span class="gp">... </span><span class="mi">90</span>
+</pre></div>
+</div>
+</section>
+<section id="colt">
+<h2>Colt:<a class="headerlink" href="#colt" title="Permalink to this headline">¶</a></h2>
+<p>Python is primary an object-orientated programming language,
+and colt provides a class to initialize objects directly from
+an input file or from the commandline.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">basic_colt</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">options</span><span class="p">::</span><span class="n">do_force</span> <span class="n">do_force</span><span class="p">]</span> <span class="n">natoms</span> <span class="n">nstates</span>
+
+<span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
+    <span class="n">natoms</span>                <span class="nb">int</span><span class="p">,</span> <span class="n">Range</span><span class="p">(</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">nstates</span>               <span class="nb">int</span><span class="p">,</span> <span class="n">Range</span><span class="p">(</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="n">optional</span> <span class="n">arguments</span><span class="p">:</span>
+    <span class="o">-</span><span class="n">h</span><span class="p">,</span> <span class="o">--</span><span class="n">help</span>            <span class="n">show</span> <span class="n">this</span> <span class="n">help</span> <span class="n">message</span> <span class="ow">and</span> <span class="n">exit</span>
+    <span class="o">-</span><span class="n">options</span><span class="p">::</span><span class="n">do_force</span> <span class="n">do_force</span>
+                          <span class="nb">bool</span><span class="p">,</span>
+</pre></div>
+</div>
+<div class="line"><strong>Basic Question Example</strong></div>
+<div class="topic">
+<p><div class="line">integer, <strong>int</strong><strong>:</strong></div>
+<pre class="literal-block">Range(&gt;2)
+This is an integer larger equal 2 </pre>
+</p>
+<p><div class="line">float, <strong>float</strong><strong>:</strong></div>
+<pre class="literal-block">This is a general float </pre>
+</p>
+<p><div class="line">string, <strong>str</strong><strong>:</strong></div>
+<pre class="literal-block">default: Hello World
+This is a string, with default value &quot;Hello World&quot; </pre>
+</p>
+<p><div class="line">list, <strong>list</strong><strong>:</strong></div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
+</p>
+<div class="line"><strong>[hallo]</strong></div>
+<p><div class="line">integer, <strong>int</strong><strong>:</strong></div>
+<pre class="literal-block">Range(&gt;2)
+This is an integer larger equal 2 </pre>
+</p>
+<p><div class="line">float, <strong>float</strong><strong>:</strong></div>
+<pre class="literal-block">This is a general float </pre>
+</p>
+<p><div class="line">string, <strong>str</strong><strong>:</strong></div>
+<pre class="literal-block">default: Hello World
+This is a string, with default value &quot;Hello World&quot; </pre>
+</p>
+<p><div class="line">list, <strong>list</strong><strong>:</strong></div>
+<pre class="literal-block">Choices(['1'], ['2'], ['3'], ['2'], ['3']) </pre>
+</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Colt’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2021, Maximilian Menger
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
