@@ -114,6 +114,7 @@ an input file or from the commandline.
   float = :: float
   # This is a string, with default value "Hello World"
   string = Hello World :: str
+  # This is a normal comma seperated list
   list = :: list
   [hallo]
   # This is an integer larger equal 2
@@ -122,4 +123,4 @@ an input file or from the commandline.
   float = :: float
   # This is a string, with default value "Hello World"
   string = Hello World :: str
-  list = :: list :: [1, 2, 3], [2], [3]
+  list = :: list 

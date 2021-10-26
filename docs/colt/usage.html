@@ -39,7 +39,7 @@
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Installation" href="installation.html" />
-    <link rel="prev" title="Welcome to Colt’s documentation!" href="index.html" /> 
+    <link rel="prev" title="Projects" href="../projects.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -83,23 +83,22 @@
               
             
             
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
+              <p class="caption"><span class="caption-text">General Information:</span></p>
+<ul>
 <li class="toctree-l1"><a class="reference internal" href="../projects.html">Projects</a></li>
-<li class="toctree-l1 current"><a class="reference internal" href="index.html">Welcome to Colt’s documentation!</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">Usage</a><ul>
-<li class="toctree-l3"><a class="reference internal" href="#questions">Questions</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#example-commandline-parser">Example: Commandline Parser</a></li>
-<li class="toctree-l3"><a class="reference internal" href="#colt">Colt:</a></li>
+</ul>
+<p class="caption"><span class="caption-text">COLT:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#questions">Questions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#example-commandline-parser">Example: Commandline Parser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#colt">Colt:</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="installation.html">Installation</a></li>
-<li class="toctree-l2"><a class="reference internal" href="modules.html">Colt</a></li>
-<li class="toctree-l2"><a class="reference internal" href="contributing.html">Contributing</a></li>
-<li class="toctree-l2"><a class="reference internal" href="authors.html">Credits</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="index.html#indices-and-tables">Indices and tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Colt</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="authors.html">Credits</a></li>
 </ul>
 
             
@@ -144,8 +143,6 @@
   <ul class="wy-breadcrumbs">
     
       <li><a href="../index.html">Docs</a> &raquo;</li>
-        
-          <li><a href="index.html">Welcome to Colt’s documentation!</a> &raquo;</li>
         
       <li>Usage</li>
     
@@ -204,6 +201,26 @@ using ‘#’ as comment character. Multiple comments can be used.</p>
 interfaces using the <cite>FromCommandline</cite>-decorator.
 An example code that prints values between <cite>xstart</cite> and <cite>xstop</cite>
 using optionally <cite>step</cite> as</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># examples/commandline_xrange.py</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">colt</span> <span class="kn">import</span> <span class="n">from_commandline</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="nd">@from_commandline</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos"> 6</span><span class="s2"># start of the range</span>
+<span class="linenos"> 7</span><span class="s2">xstart = :: int :: &gt;0</span>
+<span class="linenos"> 8</span><span class="s2"># end of the range</span>
+<span class="linenos"> 9</span><span class="s2">xstop = :: int :: &gt;1</span>
+<span class="linenos">10</span><span class="s2"># step size</span>
+<span class="linenos">11</span><span class="s2">step = 1 :: int </span>
+<span class="linenos">12</span><span class="s2">&quot;&quot;&quot;</span><span class="p">)</span>
+<span class="linenos">13</span><span class="k">def</span> <span class="nf">x_range</span><span class="p">(</span><span class="n">xstart</span><span class="p">,</span> <span class="n">xstop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+<span class="linenos">14</span>    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">xstart</span><span class="p">,</span> <span class="n">xstop</span><span class="p">,</span> <span class="n">step</span><span class="p">):</span>
+<span class="linenos">15</span>        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="linenos">16</span>
+<span class="linenos">17</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">18</span>    <span class="n">x_range</span><span class="p">()</span>
+</pre></div>
+</div>
 <p>which generates the following commandline interface if its called with arguments.
 <strong>Note:</strong> The function is only called regulary if its called with arguments,
 in case of a function that uses no arguments, <strong>always</strong> the argparser will be called!</p>
@@ -241,6 +258,45 @@ in case of a function that uses no arguments, <strong>always</strong> the argpar
 <p>Python is primary an object-orientated programming language,
 and colt provides a class to initialize objects directly from
 an input file or from the commandline.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># examples/basic_colt.py</span>
+<span class="linenos"> 2</span><span class="kn">from</span> <span class="nn">colt</span> <span class="kn">import</span> <span class="n">Colt</span>
+<span class="linenos"> 3</span>
+<span class="linenos"> 4</span>
+<span class="linenos"> 5</span><span class="k">class</span> <span class="nc">Example</span><span class="p">(</span><span class="n">Colt</span><span class="p">):</span>
+<span class="linenos"> 6</span>    <span class="sd">&quot;&quot;&quot;Basic Example of Colt class</span>
+<span class="linenos"> 7</span>
+<span class="linenos"> 8</span><span class="sd">    _user_input: is a class string and contains</span>
+<span class="linenos"> 9</span><span class="sd">                 the questions to be ask from commandline </span>
+<span class="linenos">10</span><span class="sd">                 or read from the input file</span>
+<span class="linenos">11</span><span class="sd">    </span>
+<span class="linenos">12</span><span class="sd">    from_config: classmethod, used to initialize the </span>
+<span class="linenos">13</span><span class="sd">                 class after reading the data from user input</span>
+<span class="linenos">14</span><span class="sd">    &quot;&quot;&quot;</span>
+<span class="linenos">15</span>
+<span class="linenos">16</span>    <span class="n">_user_input</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span>
+<span class="linenos">17</span><span class="s2">    natoms = :: int :: &gt;1</span>
+<span class="linenos">18</span><span class="s2">    nstates = :: int :: &gt;1</span>
+<span class="linenos">19</span><span class="s2">    [options]</span>
+<span class="linenos">20</span><span class="s2">    do_force = True :: bool</span>
+<span class="linenos">21</span><span class="s2">    &quot;&quot;&quot;</span>
+<span class="linenos">22</span>
+<span class="linenos">23</span>    <span class="nd">@classmethod</span>
+<span class="linenos">24</span>    <span class="k">def</span> <span class="nf">from_config</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">config</span><span class="p">):</span>
+<span class="linenos">25</span>        <span class="sd">&quot;&quot;&quot;The main function to be implemented to use</span>
+<span class="linenos">26</span><span class="sd">           Colt&#39;s features, it uses config data to</span>
+<span class="linenos">27</span><span class="sd">           initialize the class&quot;&quot;&quot;</span>
+<span class="linenos">28</span>        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s1">&#39;natoms&#39;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;nstates&#39;</span><span class="p">],</span> <span class="n">config</span><span class="p">[</span><span class="s1">&#39;options&#39;</span><span class="p">])</span>
+<span class="linenos">29</span>
+<span class="linenos">30</span>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">natoms</span><span class="p">,</span> <span class="n">nstates</span><span class="p">,</span> <span class="n">options</span><span class="p">):</span>
+<span class="linenos">31</span>        <span class="bp">self</span><span class="o">.</span><span class="n">natoms</span> <span class="o">=</span> <span class="n">natoms</span>
+<span class="linenos">32</span>        <span class="bp">self</span><span class="o">.</span><span class="n">nstates</span> <span class="o">=</span> <span class="n">nstates</span>
+<span class="linenos">33</span>        <span class="bp">self</span><span class="o">.</span><span class="n">options</span> <span class="o">=</span> <span class="n">options</span>
+<span class="linenos">34</span>        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;initialized Example&quot;</span><span class="p">)</span>
+<span class="linenos">35</span>
+<span class="linenos">36</span><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+<span class="linenos">37</span>    <span class="n">Example</span><span class="o">.</span><span class="n">from_commandline</span><span class="p">()</span>
+</pre></div>
+</div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">usage</span><span class="p">:</span> <span class="n">basic_colt</span><span class="o">.</span><span class="n">py</span> <span class="p">[</span><span class="o">-</span><span class="n">h</span><span class="p">]</span> <span class="p">[</span><span class="o">-</span><span class="n">options</span><span class="p">::</span><span class="n">do_force</span> <span class="n">do_force</span><span class="p">]</span> <span class="n">natoms</span> <span class="n">nstates</span>
 
 <span class="n">positional</span> <span class="n">arguments</span><span class="p">:</span>
@@ -267,9 +323,7 @@ This is an integer larger equal 2 </pre>
 This is a string, with default value &quot;Hello World&quot; </pre>
 </p>
 <p><div class="line">list, <strong>list</strong><strong>:</strong></div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> 
-</pre></div>
-</div>
+<pre class="literal-block">This is a normal comma seperated list </pre>
 </p>
 <div class="line"><strong>[hallo]</strong></div>
 <p><div class="line">integer, <strong>int</strong><strong>:</strong></div>
@@ -284,7 +338,9 @@ This is an integer larger equal 2 </pre>
 This is a string, with default value &quot;Hello World&quot; </pre>
 </p>
 <p><div class="line">list, <strong>list</strong><strong>:</strong></div>
-<pre class="literal-block">Choices(['1'], ['2'], ['3'], ['2'], ['3']) </pre>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span> 
+</pre></div>
+</div>
 </p>
 </div>
 </section>
@@ -301,7 +357,7 @@ This is a string, with default value &quot;Hello World&quot; </pre>
         <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Colt’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="../projects.html" class="btn btn-neutral float-left" title="Projects" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
